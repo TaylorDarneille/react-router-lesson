@@ -12,11 +12,11 @@ To change what the user is seeing in a React application so far, we have relied 
 
 In this lesson, we will build a small application with the following routes:
 
-| Route             | Components    |
-| ------------------| ------------- |
-| '/'               | <Home />  |
-| '/about'          | <About /> |
-| '/shoutout/:name' | <Shoutout /> |
+| Route                    | Components    |
+| -------------------------| ------------- |
+| '/'                      | <Home />      |
+| '/about'                 | <About />     |
+| '/shoutout/:first/:last' | <Shoutout />  |
 
 0. Create a new react app!
 
