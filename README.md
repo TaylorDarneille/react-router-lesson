@@ -1,68 +1,133 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React Router Lesson
 
-## Available Scripts
+[DOCS](https://reacttraining.com/react-router/)
 
-In the project directory, you can run:
+## Overview
 
-### `npm start`
+React Router is a package of components (`react-router-dom`). It allows us to build a single page application with client-side routing that mimics that of a traditional website.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To change what the user is seeing in a React application so far, we have relied on that user's interaction with the website through clicking, etc, in order to change which components are rendering. With React Router, each 'page' is associated with a path (similar to how we associated EJS templates with particular paths). The user can navigate to each view of the application via the URL bar, and if the view changes based on what the user is doing on the application, the URL follows suit. In development, this means we tell the application to render a particular route when we want it to display the components assigned to that route.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+In this lesson, we will build a small application with the following routes:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Route             | Components    |
+| ------------------| ------------- |
+| '/'               | <Home />  |
+| '/about'          | <About /> |
+| '/shoutout/:name' | <Shoutout /> |
 
-### `npm run build`
+0. Create a new react app!
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. ```npm install react-router-dom```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+2. Import the tools you need! 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`App.js`
+```
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams
+} from 'react-router-dom';
+```
 
-### `npm run eject`
+3. Wrap your app in a `Router` component:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+`App.js`
+```
+function App() {
+  return (
+    <Router>
+      <h1>React Router Example</h1>
+    </Router>
+  );
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. Start with the `Home` and `About` routes:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+For simplicity and speed, we'll define our components inside `App.js`:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+function Home() {
+  return(<h2>Hello World!</h2>)
+}
 
-## Learn More
+function About() {
+  return(<h3>About this website</h3>)
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Now add a `Switch` component inside the `App` component.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+function App() {
+  return (
+    <Router>
 
-### Code Splitting
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+    </Router>
+  );
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+Try navigating between the two routes via the URL bar.
 
-### Analyzing the Bundle Size
+**ORDER MATTERS:** `<Switch>` looks through its children `<Route>`s and renders the first one that matches the current URL.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+*Try switching the order of the `Route`s and see what happens*
 
-### Making a Progressive Web App
+5. Add Links:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Let's add some links above our `Switch` for our user to navigate between the two pages:
 
-### Advanced Configuration
+```
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+          </ul>
+        </nav>
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+6. Set up the `Shoutout` route using URL params:
 
-### Deployment
+Add the route at the top of your `Switch`:
+```
+          <Route path={'/shoutout/:first/:last'}>
+            <Shoutout />
+          </Route>
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Write the component :
 
-### `npm run build` fails to minify
+```
+function Shoutout() {
+  let { name } = useParams();
+  return(<h2>Hello {first} {last}!</h2>)
+}
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Try it out!
+
+There are a lot more useful commponents to play with in React Router like `Redirect`, and URL matching ~ check out the [docs](https://reacttraining.com/react-router/) to learn more!
+
+
+
+
+
